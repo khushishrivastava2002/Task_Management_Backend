@@ -9,6 +9,7 @@ from auth.services import validate_api_key
 import uvicorn
 from user_auth.routers import user_auth_router
 from fastapi.middleware.cors import CORSMiddleware
+from task_management.routers import task_router
 
 ####################################################################################################################
 ############ fastAPI lifespan that handle database on_event is depreacted ##########################################
@@ -77,6 +78,7 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(user_auth_router)
+app.include_router(task_router)
 
 ##############################################################################################################
 #################### Custom docs with built-in authentication form ###########################################
