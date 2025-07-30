@@ -1,0 +1,76 @@
+# Python-specific
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+.Python
+
+# Virtual environment
+env/
+venv/
+ENV/
+VENV/
+presonal_venv/
+
+
+
+# Byte-compiled and optimized files
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# MyPy cache
+.mypy_cache/
+
+# Pyre type checker
+.pyre/
+
+# Caches and logs
+*.cache
+*.log
+*.bak
+
+# VSCode and IDE-specific files
+.vscode/
+.idea/
+
+# Docker-specific
+*.env
+.env.*
+.dockerignore
+Dockerfile.*
+docker-compose*.yml
+docker-compose.override.yml
+
+# Node-related (if applicable)
+node_modules/
+
+# FastAPI logs and configs
+logs/
+*.log
+*.json
+
+# Environment files
+.env
+.env.*
+!*.env.example
+.env.local
+
+# Git-specific
+.git/
+!.gitignore
