@@ -1,0 +1,11 @@
+fastapi
+beanie
+motor
+pydantic
+python-multipart
+uvicorn
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic-settings
+pydantic[email]
+twilio>=8.0.0
