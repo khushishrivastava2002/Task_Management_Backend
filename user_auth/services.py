@@ -92,6 +92,9 @@ async def send_otp(otp_request: OTPRequest) -> OTPResponse:
         message="OTP sent successfully for phone verification",
         expires_in=300
     )
+
+##########################################################################################################################
+##################### function that verify the otp that goes on phone number #############################################
     
 async def verify_phone_otp(otp_verify: OTPVerify) -> PhoneVerificationResponse:
     """Verify OTP and mark phone as verified"""
@@ -152,7 +155,10 @@ async def verify_phone_otp(otp_verify: OTPVerify) -> PhoneVerificationResponse:
         verified=True,
         verification_token=verification_token
     )
-    
+
+#########################################################################################################################
+################ function that only register the verified user only #####################################################
+   
 async def register_verified_user(user_data: UserCreate) -> UserResponse:
     """Register user with verified phone number"""
     
@@ -211,83 +217,6 @@ async def register_verified_user(user_data: UserCreate) -> UserResponse:
         is_active=user.is_active,
         is_phone_verified=user.is_phone_verified
     )
-#########################################################################################################################
-############### This function will verify and register the user #########################################################
-
-# async def verify_otp_and_register(otp_verify: OTPVerify) -> UserResponse:
-#     """Verify OTP and register user"""
-    
-#     # Find valid OTP
-#     otp_record = await OTPStore.find_one({
-#         "mobile_number": otp_verify.mobile_number,
-#         "is_used": False,
-#         "expires_at": {"$gt": int(time.time())}
-#     })
-    
-#     if not otp_record:
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail="Invalid or expired OTP"
-#         )
-    
-#     # Check attempts
-#     if otp_record.attempts >= 3:
-#         await otp_record.update({"$set": {"is_used": True}})
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail="Too many failed attempts. Please request a new OTP."
-#         )
-    
-#     # Verify OTP
-#     if otp_record.otp_code != otp_verify.otp_code:
-#         await otp_record.update({"$inc": {"attempts": 1}})
-#         remaining = 3 - (otp_record.attempts + 1)
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail=f"Invalid OTP. {remaining} attempts remaining."
-#         )
-    
-#     # Mark OTP as used
-#     await otp_record.update({"$set": {"is_used": True}})
-    
-#     # Check for existing user with email
-#     existing_user = await Users.find_one(
-#         {"$or": [
-#             {"email_address": otp_verify.user_data.email_address},
-#             {"mobile_number": otp_verify.user_data.mobile_number}
-#         ]}
-#     )
-    
-#     if existing_user:
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail="User with this email or mobile number already exists"
-#         )
-    
-#     # Create user
-#     user = Users(
-#         first_name=otp_verify.user_data.first_name,
-#         last_name=otp_verify.user_data.last_name,
-#         password=Users.hash_password_static(otp_verify.user_data.password),
-#         mobile_number=otp_verify.user_data.mobile_number,
-#         email_address=otp_verify.user_data.email_address,
-#         created_at=int(time.time()),
-#         is_phone_verified=True  # Phone is verified through OTP
-#     )
-    
-#     await user.insert()
-    
-#     return UserResponse(
-#         id=str(user.id),
-#         first_name=user.first_name,
-#         last_name=user.last_name,
-#         mobile_number=user.mobile_number,
-#         email_address=user.email_address,
-#         created_at=user.created_at,
-#         updated_at=user.updated_at,
-#         is_active=user.is_active,
-#         is_phone_verified=user.is_phone_verified
-#     )
 
 #############################################################################################################################
 ################# Login only authenticate user ##############################################################################
